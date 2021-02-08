@@ -20,13 +20,22 @@ class SongListTile extends StatelessWidget {
         height: 50,
         width: 50,
         child: ClipOval(
-          child: AlbumArtworkBox.containsKey(songInfo.album) && AlbumArtworkBox.get(songInfo.album).isNotEmpty? Image.network(
-            AlbumArtworkBox.get(songInfo.album),
-            fit: BoxFit.cover,
-          ) : Image.asset(
-            'assets/images/image_1.jfif',
-            fit: BoxFit.cover,
-          ),
+          child: AlbumArtworkBox.containsKey(songInfo.album) &&
+                  AlbumArtworkBox.get(songInfo.album).isNotEmpty
+              ? Image.network(
+                  AlbumArtworkBox.get(songInfo.album),
+                  fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                    return Image.asset(
+                      'assets/images/image_1.jfif',
+                      fit: BoxFit.cover,
+                    );
+                  }
+                )
+              : Image.asset(
+                  'assets/images/image_1.jfif',
+                  fit: BoxFit.cover,
+                ),
         ),
       ),
       title: Text(songInfo.title),
