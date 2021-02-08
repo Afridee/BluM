@@ -1,0 +1,8 @@
+Application name:	Request for an api key
+API key:	7cd3935946a144b1b49d6b30dd4a5a0d
+Shared secret:	0425ec97c071d56287a5aef17f8aa721
+Registered to:	afridee234
+
+#usage : http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=7cd3935946a144b1b49d6b30dd4a5a0d&artist=Cher&album=Believe&format=json
+
+http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=7cd3935946a144b1b49d6b30dd4a5a0d&artist=Imagine Dragons&album=Evolve&format=json
