@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
-import 'package:get/get.dart';
-import 'package:musicplayer/Controllers/AudioQuerying.dart';
-
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 import 'Screens/Home.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  Directory Document = await getApplicationDocumentsDirectory();
+  Hive.init(Document.path);
+  await Hive.openBox<String>('AlbumArtworkBox');
   runApp(MyApp());
 }
 

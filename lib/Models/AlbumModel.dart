@@ -26,7 +26,6 @@ class AlbumModel {
 
 class Album {
   Album({
-    this.name,
     this.artist,
     this.mbid,
     this.url,
@@ -37,7 +36,7 @@ class Album {
     this.tags,
   });
 
-  String name;
+
   ArtistEnum artist;
   String mbid;
   String url;
@@ -48,7 +47,6 @@ class Album {
   Tags tags;
 
   factory Album.fromJson(Map<String, dynamic> json) => Album(
-    name: json["name"],
     artist: artistEnumValues.map[json["artist"]],
     mbid: json["mbid"],
     url: json["url"],
@@ -60,7 +58,6 @@ class Album {
   );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
     "artist": artistEnumValues.reverse[artist],
     "mbid": mbid,
     "url": url,

@@ -25,7 +25,7 @@ class _SongListState extends State<SongList> {
           return ListView.builder(
             itemCount: aq.songs.length,
             itemBuilder: (context, index){
-              return SongListTile(songInfo : aq.songs[index]);
+              return aq.songs[index].isMusic && aq.songs[index].duration!=null ?  SongListTile(songInfo : aq.songs[index]) : Container();
             },
           );
       }
