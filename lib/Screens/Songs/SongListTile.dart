@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:musicplayer/Controllers/AudioQuerying.dart';
 
+import '../../constants.dart';
+
 class SongListTile extends StatelessWidget {
   final SongInfo songInfo;
 
@@ -15,32 +17,37 @@ class SongListTile extends StatelessWidget {
     final audioQuerying = Get.put(AudioQuerying());
     final Box<String> AlbumArtworkBox = Hive.box<String>("AlbumArtworkBox");
 
-    return ListTile(
-      leading: Container(
-        height: 50,
-        width: 50,
-        child: ClipOval(
-          child: AlbumArtworkBox.containsKey(songInfo.album) &&
-                  AlbumArtworkBox.get(songInfo.album).isNotEmpty
-              ? Image.network(
-                  AlbumArtworkBox.get(songInfo.album),
-                  fit: BoxFit.cover,
-                  errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
-                    return Image.asset(
-                      'assets/images/image_1.jfif',
-                      fit: BoxFit.cover,
-                    );
-                  }
-                )
-              : Image.asset(
-                  'assets/images/image_1.jfif',
-                  fit: BoxFit.cover,
-                ),
+    return InkWell(
+      onTap: (){
+        print(songInfo);
+      },
+      child: ListTile(
+        leading: Container(
+          height: 50,
+          width: 50,
+          child: ClipOval(
+            child: AlbumArtworkBox.containsKey(songInfo.album) &&
+                    AlbumArtworkBox.get(songInfo.album).isNotEmpty
+                ? Image.network(
+                    AlbumArtworkBox.get(songInfo.album),
+                    fit: BoxFit.cover,
+                    errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                      return Image.asset(
+                        'assets/images/image_1.jfif',
+                        fit: BoxFit.cover,
+                      );
+                    }
+                  )
+                : Image.asset(
+                    'assets/images/image_1.jfif',
+                    fit: BoxFit.cover,
+                  ),
+          ),
         ),
+        title: Text(songInfo.title, style: song_title_style_1,),
+        subtitle: Text(audioQuerying.changeMillisecondsToTime(
+            Duration(milliseconds: int.parse(songInfo.duration))), style: duration_style_1),
       ),
-      title: Text(songInfo.title),
-      subtitle: Text(audioQuerying.changeMillisecondsToTime(
-          Duration(milliseconds: int.parse(songInfo.duration)))),
     );
   }
 }

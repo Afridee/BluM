@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'AlbumList.dart';
+
 class Albums extends StatefulWidget {
   @override
   _AlbumsState createState() => _AlbumsState();
@@ -14,13 +16,7 @@ class _AlbumsState extends State<Albums> {
       width: MediaQuery.of(context).size.width,
       color: Color(0xff192462),
       child: Center(
-        child: Text(
-          'Albums',
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.white
-          ),
-        ),
+        child: AlbumList(),
       ),
     );
   }

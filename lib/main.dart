@@ -9,6 +9,7 @@ void main() async{
   Directory Document = await getApplicationDocumentsDirectory();
   Hive.init(Document.path);
   await Hive.openBox<String>('AlbumArtworkBox');
+  await Hive.openBox<String>('ArtistArtBox');
   runApp(MyApp());
 }
 

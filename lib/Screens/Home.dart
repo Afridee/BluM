@@ -5,6 +5,7 @@ import '../Screens/Artists/Artists.dart';
 import '../Screens/Genres/Genres.dart';
 import '../Screens/PlayLists/PlayLists.dart';
 import '../Screens/Songs/Songs.dart';
+import '../constants.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -45,48 +46,7 @@ class _HomeState extends State<Home> {
             onTap: (index) {
               bottomBarOnTap(index);
             },
-            tabs: [
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Songs',
-                    style: TextStyle(color: Colors.white, fontSize: 18.0),
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Playlists',
-                    style: TextStyle(color: Colors.white, fontSize: 18.0),
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Artists',
-                    style: TextStyle(color: Colors.white, fontSize: 18.0),
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Albums',
-                    style: TextStyle(color: Colors.white, fontSize: 18.0),
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Genres',
-                    style: TextStyle(color: Colors.white, fontSize: 18.0),
-                  ),
-                ),
-              ),
-            ],
+            tabs: Tabs,
           ),
         ),
         body: PageView(

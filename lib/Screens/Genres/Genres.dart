@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:musicplayer/Screens/Genres/GenreList.dart';
 
 class Genres extends StatefulWidget {
   @override
@@ -14,13 +15,7 @@ class _GenresState extends State<Genres> {
       width: MediaQuery.of(context).size.width,
       color: Color(0xff192462),
       child: Center(
-        child: Text(
-          'Genres',
-          style: TextStyle(
-              fontSize: 15,
-              color: Colors.white
-          ),
-        ),
+        child: GenreList(),
       ),
     );
   }
