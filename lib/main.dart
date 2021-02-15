@@ -10,6 +10,7 @@ void main() async{
   Hive.init(Document.path);
   await Hive.openBox<String>('AlbumArtworkBox');
   await Hive.openBox<String>('ArtistArtBox');
+  await Hive.openBox<List<dynamic>>('PlaylistBox');
   runApp(MyApp());
 }
 

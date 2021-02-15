@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,15 +28,13 @@ class ArtistListTile extends StatelessWidget {
           child: ClipOval(
             child: ArtistArtBox.containsKey(artistInfo.name) &&
                 ArtistArtBox.get(artistInfo.name).isNotEmpty
-                ? Image.network(
-                ArtistArtBox.get(artistInfo.name),
+                ? CachedNetworkImage(
+                imageUrl: ArtistArtBox.get(artistInfo.name),
                 fit: BoxFit.cover,
-                errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
-                  return Image.asset(
-                    'assets/images/image_1.jfif',
-                    fit: BoxFit.cover,
-                  );
-                }
+                errorWidget: (context, url, error) => Image.asset(
+                  'assets/images/image_1.jfif',
+                  fit: BoxFit.cover,
+                )
             )
                 : Image.asset(
               'assets/images/image_1.jfif',
@@ -48,3 +47,5 @@ class ArtistListTile extends StatelessWidget {
     );
   }
 }
+
+

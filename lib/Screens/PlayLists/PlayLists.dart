@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../Screens/PlayLists/ListOfPlayList.dart';
+import '../../widgets/PlaylistCreatorDialogue.dart';
 
 class PlayLists extends StatefulWidget {
   @override
@@ -13,14 +15,31 @@ class _PlayListsState extends State<PlayLists> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       color: Color(0xff192462),
-      child: Center(
-        child: Text(
-          'PlayLists',
-          style: TextStyle(
-              fontSize: 15,
-              color: Colors.white
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              child: Center(
+                child: IconButton(
+                  icon: Icon(Icons.add_circle),
+                  iconSize: 70,
+                  color: Colors.white,
+                  onPressed: (){
+                    PlayListCreatorDialog(context: context, title: "Create new playlist", color: Color(0xff192462));
+                  },
+                ),
+              ),
+            ),
           ),
-        ),
+          Expanded(
+            flex: 5,
+            child: Container(
+              child: Center(
+                child: ListOfPlayList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
