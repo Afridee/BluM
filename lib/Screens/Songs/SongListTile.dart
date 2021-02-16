@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:musicplayer/Controllers/Actions.dart';
 import 'package:musicplayer/Controllers/AudioQuerying.dart';
+import 'package:musicplayer/Screens/AudioPlayer/AudioPlayer.dart';
 
 import '../../constants.dart';
 
@@ -22,7 +23,10 @@ class SongListTile extends StatelessWidget {
 
     return InkWell(
       onTap: (){
-
+        var route = new MaterialPageRoute(
+          builder: (BuildContext context) => new AudioPlayer(),
+        );
+        Navigator.of(context).push(route);
       },
       child: ListTile(
         leading: Container(

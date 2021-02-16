@@ -13,6 +13,7 @@ class AppActions extends GetxController{
   addSongToPlayList({String playListname, List<SongInfo> songInfoList}){
 
     if(playListname.length>0){
+
       List<dynamic> SongModelList = new List<dynamic>();
 
       songInfoList.forEach((songInfoElement) {
@@ -59,7 +60,6 @@ class AppActions extends GetxController{
   }
 
  removeSongFromPlaylist({String playListname, List<SongModelForPLayList> songInfoList}){
-
 
     List<dynamic> Songs = PlaylistBox.get(playListname);
 
