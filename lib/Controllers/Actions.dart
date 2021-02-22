@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';

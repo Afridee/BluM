@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:musicplayer/Controllers/Actions.dart';
+import 'package:musicplayer/Controllers/AudioPlayer.dart';
 import 'package:musicplayer/Controllers/AudioQuerying.dart';
+import 'package:musicplayer/Models/songModelForPlaylist.dart';
 import 'package:musicplayer/Screens/AudioPlayer/AudioPlayer.dart';
 
 import '../../constants.dart';
@@ -18,11 +19,26 @@ class SongListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final audioQuerying = Get.put(AudioQuerying());
-    final appActions = Get.put(AppActions());
+    final  audioPlayerController = Get.put(AudioPlayerController());
     final Box<String> AlbumArtworkBox = Hive.box<String>("AlbumArtworkBox");
 
     return InkWell(
       onTap: (){
+        audioPlayerController.setAudioSource(songList: [
+          SongModelForPLayList(
+              album: songInfo.album,
+              albumArtwork: AlbumArtworkBox.get(songInfo.album),
+              title: songInfo.title,
+              artist: songInfo.artist,
+              duration: songInfo.duration,
+              composer: songInfo.composer,
+              albumId: songInfo.albumId,
+              artistId: songInfo.artistId,
+              filePath: songInfo.filePath,
+              fileSize: songInfo.fileSize,
+              isMusic: songInfo.isMusic
+          )
+        ]);
         var route = new MaterialPageRoute(
           builder: (BuildContext context) => new AudioPlayer(),
         );

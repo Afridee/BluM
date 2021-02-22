@@ -37,7 +37,9 @@ dependencies:
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
   cached_network_image: ^2.5.0
-  music_slider: ^0.0.1
+  icon_shadow: ^1.0.1
+  wave: ^0.1.0
+  auto_size_text: ^2.1.0
 
 dev_dependencies:
   flutter_test:
