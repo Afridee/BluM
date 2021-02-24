@@ -24,21 +24,7 @@ class SongListTile extends StatelessWidget {
 
     return InkWell(
       onTap: (){
-        audioPlayerController.setAudioSource(songList: [
-          SongModelForPLayList(
-              album: songInfo.album,
-              albumArtwork: AlbumArtworkBox.get(songInfo.album),
-              title: songInfo.title,
-              artist: songInfo.artist,
-              duration: songInfo.duration,
-              composer: songInfo.composer,
-              albumId: songInfo.albumId,
-              artistId: songInfo.artistId,
-              filePath: songInfo.filePath,
-              fileSize: songInfo.fileSize,
-              isMusic: songInfo.isMusic
-          )
-        ]);
+        audioPlayerController.setAudioSourceForSongs(song: songInfo);
         var route = new MaterialPageRoute(
           builder: (BuildContext context) => new AudioPlayer(),
         );

@@ -1,16 +1,37 @@
 import 'dart:ui';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:wave/config.dart';
 import 'package:musicplayer/Controllers/AudioPlayer.dart';
 import 'package:wave/wave.dart';
 import '../../constants.dart';
 
-class AudioPlayer extends StatelessWidget {
+class AudioPlayer extends StatefulWidget {
+  @override
+  _AudioPlayerState createState() => _AudioPlayerState();
+}
+
+class _AudioPlayerState extends State<AudioPlayer>
+    with SingleTickerProviderStateMixin {
   final audioPlayerController = Get.put(AudioPlayerController());
+
+  @override
+  void initState() {
+    audioPlayerController.playPauseAnimationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    audioPlayerController.playPauseAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,58 +49,51 @@ class AudioPlayer extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(
-              height: 220,
-              width: 220,
-              child: ClipOval(
-                child: GetBuilder<AudioPlayerController>(
-                  builder: (apc) {
-                    return CachedNetworkImage(
-                        imageUrl:
-                        apc.currentSong.albumArtwork.toString(),
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) =>
-                            Image.asset(
-                              'assets/images/image_1.jfif',
-                              fit: BoxFit.cover,
-                            ));
-                  },
-                ),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: GetBuilder<AudioPlayerController>(
+                builder: (apc) {
+                  return CachedNetworkImage(
+                      imageUrl: apc.currentSong.albumArtwork.toString(),
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/image_1.jfif',
+                            fit: BoxFit.cover,
+                          ));
+                },
               ),
             ),
             BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 10,
-                sigmaY: 10
-              ),
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(45),
-                        topLeft: Radius.circular(45)),
-                    color: Color(0xff1f2128).withOpacity(0.7)),
+                decoration:
+                    BoxDecoration(color: Color(0xff1f2128).withOpacity(0.9)),
                 child: Center(
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 30.0,left: 20,right: 20),
+                        padding: const EdgeInsets.only(
+                            top: 40.0, left: 20, right: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
                               icon: Icon(Icons.arrow_back_ios),
-                              color: Colors.white.withOpacity(0.7),
-                              onPressed: () {},
+                              color: Colors.white,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
                             ),
                             IconButton(
                               icon: Icon(Icons.more_horiz),
-                              color: Colors.white.withOpacity(0.7),
+                              color: Colors.white,
                               onPressed: () {},
                             )
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 50.0),
+                        padding: const EdgeInsets.only(top: 40.0),
                         child: Container(
                           height: 250,
                           width: 250,
@@ -88,7 +102,7 @@ class AudioPlayer extends StatelessWidget {
                               builder: (apc) {
                                 return CachedNetworkImage(
                                     imageUrl:
-                                    apc.currentSong.albumArtwork.toString(),
+                                        apc.currentSong.albumArtwork.toString(),
                                     fit: BoxFit.cover,
                                     errorWidget: (context, url, error) =>
                                         Image.asset(
@@ -101,15 +115,23 @@ class AudioPlayer extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: GetBuilder<AudioPlayerController>(
-                          builder: (apc) {
-                            return Text(
-                              apc.currentSong.title.toString(),
-                              style: song_title_style_3,
-                              textAlign: TextAlign.center,
-                            );
-                          },
+                        padding: const EdgeInsets.only(
+                            top: 15.0, left: 15, right: 15),
+                        child: Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          child: GetBuilder<AudioPlayerController>(
+                            builder: (apc) {
+                              return Center(
+                                child: AutoSizeText(
+                                  apc.currentSong.title.toString(),
+                                  style: song_title_style_3,
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       GetBuilder<AudioPlayerController>(builder: (apc) {
@@ -128,20 +150,24 @@ class AudioPlayer extends StatelessWidget {
                           child: SliderTheme(
                             data: SliderTheme.of(context).copyWith(
                               activeTrackColor: Color(0xff6F2CFF),
-                              inactiveTrackColor: Color(0xff6F2CFF).withOpacity(0.3),
+                              inactiveTrackColor:
+                                  Color(0xff6F2CFF).withOpacity(0.3),
                               trackShape: RectangularSliderTrackShape(),
                               trackHeight: 6.0,
-                              thumbColor: Color(0xff6F2CFF),
-                              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7.0),
+                              thumbColor: Colors.white,
+                              thumbShape: RoundSliderThumbShape(
+                                  enabledThumbRadius: 7.0),
                               overlayColor: Color(0xff6F2CFF).withAlpha(32),
-                              overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+                              overlayShape:
+                                  RoundSliderOverlayShape(overlayRadius: 20.0),
                             ),
                             child: Slider(
                               min: 0,
                               max: 100,
                               value: apc.dragPercentage,
                               onChanged: (value) {
-                                audioPlayerController.changeDragPercantage(value);
+                                audioPlayerController
+                                    .changeDragPercantage(value);
                               },
                             ),
                           ),
@@ -172,17 +198,23 @@ class AudioPlayer extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            IconButton(
-                              iconSize: 20,
-                              icon: Icon(Icons.shuffle),
-                              color: Colors.white,
-                              onPressed: () {},
-                            ),
+                             GetBuilder<AudioPlayerController>(builder: (apc){
+                               return IconButton(
+                                 iconSize: 20,
+                                 icon: Icon(Icons.shuffle),
+                                 color: apc.shuffled? Color(0xff6F2CFF) : Colors.white,
+                                 onPressed: () {
+                                   audioPlayerController.shuffleToggle();
+                                 },
+                               );
+                             }),
                             IconButton(
                               icon: Icon(Icons.skip_previous),
                               iconSize: 40,
                               color: Colors.white.withOpacity(0.7),
-                              onPressed: () {},
+                              onPressed: () async{
+                                await audioPlayerController.player.seekToPrevious();
+                              },
                             ),
                             Container(
                               decoration: BoxDecoration(
@@ -193,17 +225,23 @@ class AudioPlayer extends StatelessWidget {
                                       color: Color(0xff6F2CFF).withOpacity(0.3),
                                       spreadRadius: 3,
                                       blurRadius: 8,
-                                      offset: Offset(0, 3), // changes position of shadow
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
                                     ),
-                                  ]
-                              ),
+                                  ]),
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: IconButton(
-                                  icon: Icon(Icons.play_arrow),
+                                  icon: AnimatedIcon(
+                                    icon: AnimatedIcons.play_pause,
+                                    progress: audioPlayerController
+                                        .playPauseAnimationController,
+                                  ),
                                   color: Colors.white,
                                   iconSize: 35,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    audioPlayerController.playPauseToggle();
+                                  },
                                 ),
                               ),
                             ),
@@ -211,14 +249,20 @@ class AudioPlayer extends StatelessWidget {
                               icon: Icon(Icons.skip_next),
                               iconSize: 40,
                               color: Colors.white.withOpacity(0.7),
-                              onPressed: () {},
+                              onPressed: () async{
+                                await audioPlayerController.player.seekToNext();
+                              },
                             ),
-                            IconButton(
-                              icon: Icon(Icons.repeat),
-                              color: Colors.white,
-                              iconSize: 20,
-                              onPressed: () {},
-                            )
+                            GetBuilder<AudioPlayerController>(builder: (apc){
+                              return IconButton(
+                                icon: apc.loopMode==LoopMode.all || apc.loopMode==LoopMode.off ? Icon(Icons.repeat) : Icon(Icons.repeat_one),
+                                color: apc.loopMode==LoopMode.off ? Colors.white : Color(0xff6F2CFF),
+                                iconSize: 20,
+                                onPressed: () {
+                                  audioPlayerController.loopToggle();
+                                },
+                              );
+                            })
                           ],
                         ),
                       )
@@ -227,35 +271,65 @@ class AudioPlayer extends StatelessWidget {
                 ),
               ),
             ),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width,
-            child: WaveWidget(
-              isLoop: true,
-              waveFrequency: 4,
-              config: CustomConfig(
-                gradients: [
-                  [Color(0xff6F2CFF).withOpacity(0.07), Color(0xff6F2CFF).withOpacity(0.07)],
-                  [Color(0xff6F2CFF).withOpacity(0.07), Color(0xff6F2CFF).withOpacity(0.07)],
-                  [Color(0xff6F2CFF).withOpacity(0.07), Color(0xff6F2CFF).withOpacity(0.07)],
-                  [Color(0xff6F2CFF).withOpacity(0.07), Color(0xff6F2CFF).withOpacity(0.07)]
-                ],
-                durations: [1000, 2000, 3000, 4000],
-                heightPercentages: [0.20, 0.23, 0.25, 0.30],
-                blur: MaskFilter.blur(BlurStyle.solid, 10),
-                gradientBegin: Alignment.bottomLeft,
-                gradientEnd: Alignment.topRight,
-              ),
-              waveAmplitude: 0,
-              size: Size(
-                double.infinity,
-                60,
+            Positioned(
+              bottom: 0,
+              child: GetBuilder<AudioPlayerController>(
+                builder: (apc) {
+                  return apc.player.playing
+                      ? Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          child: WaveWidget(
+                            isLoop: true,
+                            waveFrequency: 4,
+                            config: CustomConfig(
+                              gradients: [
+                                [
+                                  Color(0xff6F2CFF).withOpacity(0.07),
+                                  Color(0xff6F2CFF).withOpacity(0.07)
+                                ],
+                                [
+                                  Color(0xff6F2CFF).withOpacity(0.07),
+                                  Color(0xff6F2CFF).withOpacity(0.07)
+                                ],
+                                [
+                                  Color(0xff6F2CFF).withOpacity(0.07),
+                                  Color(0xff6F2CFF).withOpacity(0.07)
+                                ],
+                                [
+                                  Color(0xff6F2CFF).withOpacity(0.07),
+                                  Color(0xff6F2CFF).withOpacity(0.07)
+                                ]
+                              ],
+                              durations: [1000, 2000, 3000, 4000],
+                              heightPercentages: [0.20, 0.23, 0.25, 0.30],
+                              blur: MaskFilter.blur(BlurStyle.solid, 10),
+                              gradientBegin: Alignment.bottomLeft,
+                              gradientEnd: Alignment.topRight,
+                            ),
+                            waveAmplitude: 0,
+                            size: Size(
+                              double.infinity,
+                              60,
+                            ),
+                          ),
+                        )
+                      : Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                          gradient: LinearGradient(colors: [
+                            Color(0xff1f2128).withOpacity(0.07),
+                            Color(0xff6F2CFF).withOpacity(0.07),
+                            Color(0xff1f2128).withOpacity(0.07)
+                          ]),
+                          //color: Color(0xff6F2CFF).withOpacity(0.07)
+                        ),
+                      );
+                },
               ),
             ),
-          ),
-        ),
           ],
         ),
       ),
