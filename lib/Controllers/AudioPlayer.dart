@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:get/get.dart';
@@ -113,14 +114,19 @@ class AudioPlayerController extends GetxController{
   }
 
   ///Sets Audio source(for playlist):
-  setAudioSourceForPlayList({@required List<SongModelForPLayList> songList}) async{
+  setAudioSourceForPlayList({List<dynamic> songList}) async{
 
-    currentSongList = songList;
+    currentSongList.clear();
+
+    songList.forEach((element) {
+      currentSongList.add(SongModelForPLayList.fromJson(element));
+    });
+
     update();
 
     List<AudioSource> sourceChildren = new List<AudioSource>();
 
-    songList.forEach((element) { 
+    currentSongList.forEach((element) {
       sourceChildren.add(AudioSource.uri(Uri.parse(element.filePath)));
     });
 

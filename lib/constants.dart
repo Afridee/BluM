@@ -22,6 +22,13 @@ const TextStyle song_title_style_3 = TextStyle(
     fontSize: 25
 );
 
+const TextStyle song_title_style_4 = TextStyle(
+    fontFamily: 'Nunito',
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+    fontSize: 13
+);
+
 TextStyle Artist_title_style_1 = TextStyle(
     color: Colors.white.withOpacity(0.7),
     fontWeight: FontWeight.w300,
@@ -37,6 +44,12 @@ const TextStyle seek_style = TextStyle(
 const TextStyle duration_style_1 = TextStyle(
     fontFamily: 'Nunito',
     color: Colors.white,
+    fontSize: 10
+);
+
+const TextStyle duration_style_2 = TextStyle(
+    fontFamily: 'Nunito',
+    color: Colors.black,
     fontSize: 10
 );
 
